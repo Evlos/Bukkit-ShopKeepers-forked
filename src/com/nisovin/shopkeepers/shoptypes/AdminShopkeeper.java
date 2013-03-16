@@ -1,8 +1,11 @@
 package com.nisovin.shopkeepers.shoptypes;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.bind.DatatypeConverter;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -254,9 +257,41 @@ public class AdminShopkeeper extends Shopkeeper {
 		}
 		if (item.getType() == Material.WRITTEN_BOOK && config.contains("title") && config.contains("author") && config.contains("pages")) {
 			BookMeta meta = (BookMeta)item.getItemMeta();
-			meta.setTitle(config.getString("title"));
-			meta.setAuthor(config.getString("author"));
-			meta.setPages(config.getStringList("pages"));
+			
+			// modified by Evlos - START
+			try {
+				byte[] title_byte = DatatypeConverter.parseHexBinary(config.getString("title"));
+				String title_str = new String(title_byte, Charset.forName("UTF-8"));
+				meta.setTitle(title_str);
+			}
+			catch(Exception e) {
+				meta.setTitle(config.getString("title"));
+			}
+			
+			try {
+				byte[] author_byte = DatatypeConverter.parseHexBinary(config.getString("author"));
+				String author_str = new String(author_byte, Charset.forName("UTF-8"));
+				meta.setAuthor(author_str);
+			}
+			catch(Exception e) {
+				meta.setAuthor(config.getString("author"));
+			}
+					
+			List<String> pages_ = new ArrayList<String>();
+			for (String val : config.getStringList("pages")) {
+				try {
+					byte[] page_byte = DatatypeConverter.parseHexBinary(val);
+					String page_str = new String(page_byte, Charset.forName("UTF-8"));
+					pages_.add(page_str);
+				}
+				catch(Exception e) {
+					String page_str = val;
+					pages_.add(page_str);
+				}
+			}
+			meta.setPages(pages_);
+			// modified by Evlos - END
+			
 			item.setItemMeta(meta);
 		}
 		return item;
@@ -286,15 +321,27 @@ public class AdminShopkeeper extends Shopkeeper {
 		// book meta
 		if (meta instanceof BookMeta) {
 			BookMeta book = (BookMeta)meta;
+			// modified by Evlos - START
 			if (book.hasTitle()) {
-				config.set("title", book.getTitle());
+				byte[] title_byte = book.getTitle().getBytes(Charset.forName("UTF-8"));
+				String title_hex = DatatypeConverter.printHexBinary(title_byte);
+				config.set("title", title_hex);
 			}
 			if (book.hasAuthor()) {
-				config.set("author", book.getAuthor());
+				byte[] author_byte = book.getAuthor().getBytes(Charset.forName("UTF-8"));
+				String author_hex = DatatypeConverter.printHexBinary(author_byte);
+				config.set("author", author_hex);
 			}
-			if (book.hasPages()) {
-				config.set("pages", book.getPages());
+			if (book.hasPages()) {				
+				List<String> pages_list = new ArrayList<String>();
+				for (String val : book.getPages()) {
+					byte[] page_byte = val.getBytes(Charset.forName("UTF-8"));
+					String page_hex = DatatypeConverter.printHexBinary(page_byte);
+					pages_list.add(page_hex);
+				}
+				config.set("pages", pages_list);
 			}
+			// modified by Evlos - END
 		}
 		// enchants
 		Map<Enchantment, Integer> enchants = item.getEnchantments();

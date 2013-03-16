@@ -34,7 +34,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.nisovin.shopkeepers.events.*;
-import com.nisovin.shopkeepers.pluginhandlers.*;
 import com.nisovin.shopkeepers.shopobjects.*;
 import com.nisovin.shopkeepers.shoptypes.*;
 import com.nisovin.shopkeepers.volatilecode.*;
@@ -64,19 +63,14 @@ public class ShopkeepersPlugin extends JavaPlugin {
 	public void onEnable() {
 		plugin = this;
 		
-		// load volatile code handler
+		// load volatile code handler @partlyRemovedByEvlos
 		try {
-			Class.forName("net.minecraft.server.v1_5_R1.MinecraftServer");
-			volatileCodeHandle = new VolatileCode_1_5_R1();
-		} catch (ClassNotFoundException e_1_5_r1) {
-			try {
-				Class.forName("net.minecraft.server.v1_4_R1.MinecraftServer");
-				volatileCodeHandle = new VolatileCode_1_4_R1();
-			} catch (ClassNotFoundException e_1_4_r1) {
-				getLogger().severe("Incompatible server version: Shopkeepers plugin cannot be enabled.");
-				this.setEnabled(false);
-				return;
-			}
+			Class.forName("net.minecraft.server.v1_4_R1.MinecraftServer");
+			volatileCodeHandle = new VolatileCode_1_4_R1();
+		} catch (ClassNotFoundException e_1_4_r1) {
+			getLogger().severe("Incompatible server version: Shopkeepers plugin cannot be enabled.");
+			this.setEnabled(false);
+			return;
 		}
 		
 		// get config
@@ -372,21 +366,8 @@ public class ShopkeepersPlugin extends JavaPlugin {
 			return null;
 		}
 		
-		// check worldguard
-		if (Settings.enableWorldGuardRestrictions) {
-			if (!WorldGuardHandler.canBuild(player, location)) {
-				plugin.sendMessage(player, Settings.msgShopCreateFail);
-				return null;
-			}
-		}
-		
-		// check towny
-		if (Settings.enableTownyRestrictions) {
-			if (!TownyHandler.isCommercialArea(location)) {
-				plugin.sendMessage(player, Settings.msgShopCreateFail);
-				return null;
-			}
-		}
+		// check worldguard (removed by Evlos)
+		// check towny (removed by Evlos)
 		
 		int maxShops = Settings.maxShopsPerPlayer;
 		
