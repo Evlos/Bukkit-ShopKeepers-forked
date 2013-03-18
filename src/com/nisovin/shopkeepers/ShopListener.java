@@ -196,7 +196,7 @@ class ShopListener implements Listener {
 			item1.hasItemMeta() && item2.hasItemMeta()) {
 			BookMeta item1Meta = (BookMeta)item1.getItemMeta();
 			BookMeta item2Meta = (BookMeta)item2.getItemMeta();			
-			plugin.getServer().broadcastMessage("||========> " + item1Meta.getTitle() + "_" + item2Meta.getTitle() + "-" + item1Meta.getAuthor() + "_" + item2Meta.getAuthor());
+			//plugin.getServer().broadcastMessage("||========> " + item1Meta.getTitle() + "_" + item2Meta.getTitle() + "-" + item1Meta.getAuthor() + "_" + item2Meta.getAuthor());
 			if (!item1Meta.getTitle().equals(item2Meta.getTitle())||!item1Meta.getAuthor().equals(item2Meta.getAuthor()))
 				return false;
 		}
