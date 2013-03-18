@@ -12,4 +12,4 @@ Forked from https://code.google.com/p/nisovin-minecraft-bukkit-plugins/source/br
 ###TODO List
 
 * Cancel random skin/gender of villager change after reloading
-* Fix items comparison (author and title of books should be compared, and some strange issues)
+* Fix items comparison (author and title of books should be compared)
