@@ -1,9 +1,12 @@
-Bukkit-ShopKeepers-forked
-=========================
+## Bukkit-ShopKeepers-forked
 
 Forked from https://code.google.com/p/nisovin-minecraft-bukkit-plugins/source/browse/trunk/ShopKeepers/
 
-###Modification List
+### Modification List
+
+* Updated for bukkit v1.5.2
+
+---
 
 * Temporary removed Bukkit 1.5 support.
 * Temporary removed Worldguard and Towny support.
