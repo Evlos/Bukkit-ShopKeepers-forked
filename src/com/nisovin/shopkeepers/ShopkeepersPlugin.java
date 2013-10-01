@@ -600,7 +600,14 @@ public class ShopkeepersPlugin extends JavaPlugin {
 		
 		YamlConfiguration config = new YamlConfiguration();
 		try {
-			config.load(file);
+			if (Settings.fileEncoding != null && !Settings.fileEncoding.isEmpty()) {
+				FileInputStream stream = new FileInputStream(file);
+				String data = new Scanner(stream, Settings.fileEncoding).useDelimiter("\\A").next();
+				config.loadFromString(data);
+				stream.close();
+			} else {
+				config.load(file);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return;
@@ -664,7 +671,13 @@ public class ShopkeepersPlugin extends JavaPlugin {
 			file.delete();
 		}
 		try {
-			config.save(file);
+			if (Settings.fileEncoding != null && !Settings.fileEncoding.isEmpty()) {
+				PrintWriter writer = new PrintWriter(file, Settings.fileEncoding);
+				writer.write(config.saveToString());
+				writer.close();
+			} else {
+				config.save(file);
+			}
 			debug("Saved shopkeeper data");
 		} catch (IOException e) {
 			e.printStackTrace();

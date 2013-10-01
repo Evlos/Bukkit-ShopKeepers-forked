@@ -4,6 +4,10 @@ Forked from https://code.google.com/p/nisovin-minecraft-bukkit-plugins/source/br
 
 ### Modification List
 
+* Updated according to source
+
+---
+
 * Updated for bukkit v1.5.2
 
 ---

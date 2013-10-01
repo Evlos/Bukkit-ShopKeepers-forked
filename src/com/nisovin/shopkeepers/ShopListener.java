@@ -187,20 +187,10 @@ class ShopListener implements Listener {
 	}
 	
 	private boolean itemEquals(ItemStack item1, ItemStack item2) {
-		if ((item1 == null || item1.getTypeId() == 0) && (item2 == null || item2.getTypeId() == 0)) return true;
-		if (item1 == null || item2 == null) return false;
-		// modified by Evlos - START
-		if (item1.getType() == Material.WRITTEN_BOOK && item2.getType() == Material.WRITTEN_BOOK &&
-			item1.hasItemMeta() && item2.hasItemMeta()) {
-			BookMeta item1Meta = (BookMeta)item1.getItemMeta();
-			BookMeta item2Meta = (BookMeta)item2.getItemMeta();			
-			//plugin.getServer().broadcastMessage("||========> " + item1Meta.getTitle() + "_" + item2Meta.getTitle() + "-" + item1Meta.getAuthor() + "_" + item2Meta.getAuthor());
-			if (!item1Meta.getTitle().equals(item2Meta.getTitle())||!item1Meta.getAuthor().equals(item2Meta.getAuthor()))
-				return false;
-		}
-		// modified by Evlos - END
-		return item1.getTypeId() == item2.getTypeId() && item1.getDurability() == item2.getDurability() && itemNamesEqual(item1, item2);
-	}
+	    if ((item1 == null || item1.getTypeId() == 0) && (item2 == null || item2.getTypeId() == 0)) return true;
+	    if (item1 == null || item2 == null) return false;
+	    return item1.isSimilar(item2);
+    }
 
 	private static String getNameOfItem(ItemStack item) {
 		if (item != null && item.getTypeId() > 0 && item.hasItemMeta()) {
